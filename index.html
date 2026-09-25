@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decolar | Proposta Legal Operations</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#0A192F',
+              primary: '#1E3A8A',
+              lightBlue: '#3B82F6',
+              accent: '#6366F1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #F1F5F9; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    details > summary { list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] summary ~ * { animation: sweep .3s ease-in-out; }
+    @keyframes sweep {
+      0%    {opacity: 0; transform: translateY(-5px)}
+      100%  {opacity: 1; transform: translateY(0)}
+    }
+    .typing-indicator::after {
+      content: '▋';
+      animation: blink 1s step-start infinite;
+      color: #3B82F6;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 antialiased flex h-screen overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-brand-navy text-white flex flex-col justify-between shadow-xl flex-shrink-0 z-30 select-none">
+    <div>
+      <!-- Cabeçalho da Marca Decolar com Logo Genérica (D) -->
+      <div class="p-5 flex items-center gap-3 border-b border-slate-800">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-brand-primary to-blue-500 flex items-center justify-center font-bold text-xl text-white shadow-md">
+          D
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-bold tracking-tight text-lg text-white">Decolar</span>
+            <span class="text-xs bg-blue-500/20 text-blue-300 font-semibold px-2 py-0.5 rounded-full border border-blue-400/30">Ops</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Proposta Estratégica</p>
+        </div>
+      </div>
+
+      <nav class="mt-5 px-3 space-y-1">
+        <button onclick="switchTab('sobre')" id="nav-sobre" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all bg-brand-lightBlue/20 text-blue-300 border border-brand-lightBlue/30">
+          <i data-lucide="user" class="w-4 h-4"></i><span class="flex-1 text-left">Sobre Mim</span>
+        </button>
+        <button onclick="switchTab('roadmap')" id="nav-roadmap" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:bg-slate-800/60 hover:text-white">
+          <i data-lucide="compass" class="w-4 h-4"></i><span class="flex-1 text-left">Roadmap Estratégico</span>
+        </button>
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:bg-slate-800/60 hover:text-white">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i><span class="flex-1 text-left">Cockpit & Indicadores</span>
+        </button>
+        <button onclick="switchTab('partners')" id="nav-partners" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:bg-slate-800/60 hover:text-white">
+          <i data-lucide="building-2" class="w-4 h-4"></i><span class="flex-1 text-left">Fornecedores & Budget</span>
+        </button>
+        <button onclick="switchTab('kanban')" id="nav-kanban" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:bg-slate-800/60 hover:text-white">
+          <i data-lucide="kanban" class="w-4 h-4"></i><span class="flex-1 text-left">Pipeline de Projetos</span>
+        </button>
+        <button onclick="switchTab('ai')" id="nav-ai" class="nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:bg-slate-800/60 hover:text-white border border-indigo-500/30 bg-indigo-900/20 mt-4 relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 animate-pulse"></div>
+          <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400 relative z-10"></i>
+          <span class="flex-1 text-left relative z-10 text-indigo-200 font-bold">Assistente IA (Live)</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Miniatura Perfil Sidebar -->
+    <div class="p-4 border-t border-slate-800 bg-slate-900/60">
+      <div class="flex items-center gap-3">
+        <img src="https://media.licdn.com/dms/image/v2/D4D03AQEvFdxHbxecvQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1715823319183?e=1792022400&v=beta&t=Hp-Xc1UzJVWbsatJ9oFmW8KRkBjxD2o6-g4w_0UcGXY" alt="Lucas Pereira" class="w-9 h-9 rounded-full border border-blue-400/40 object-cover">
+        <div class="overflow-hidden">
+          <p class="text-xs font-semibold text-slate-200 truncate">Lucas Pereira</p>
+          <p class="text-[11px] text-slate-400 truncate">Entrevista Legal Ops</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- Header Fixo Superior -->
+    <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
+      <div>
+        <h1 id="page-title" class="text-xl font-bold text-slate-900 tracking-tight">Apresentação: Sobre Mim</h1>
+        <p id="page-subtitle" class="text-xs text-slate-500">Background, visão estratégica e entregas relevantes</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="window.print()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition border border-slate-300">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar Visão
+        </button>
+        <a href="https://www.linkedin.com/in/pereira-lucas/" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition shadow-xs">
+          <i data-lucide="linkedin" class="w-3.5 h-3.5"></i> Ver LinkedIn
+        </a>
+      </div>
+    </header>
+
+    <div class="flex-1 overflow-y-auto custom-scrollbar p-6 bg-slate-50/70">
+
+      <!-- ================= TAB: SOBRE MIM ================= -->
+      <section id="tab-sobre" class="space-y-6">
+        
+        <!-- Hero / Resumo Baseado no Currículo -->
+        <div class="bg-gradient-to-r from-brand-primary to-indigo-900 rounded-2xl p-8 text-white shadow-lg flex items-center justify-between">
+          <div class="max-w-3xl">
+            <h2 class="text-3xl font-bold">Lucas Pereira da Silva</h2>
+            <p class="text-blue-200 font-semibold text-sm mt-1">Legal Operations Specialist & Legal Tech Leader</p>
+            
+            <p class="text-blue-100 mt-4 text-sm leading-relaxed">
+              Gestor de operações com mais de 8 anos de experiência em gigantes de tecnologia de alto crescimento (Wellhub e Mercado Livre), coordenando iniciativas cross-funcionais e liderando times em ambientes de alta complexidade. Vencedor do 1º Lugar no Concurso de Empreendedorismo e Inovação Jurídica (2018), conduzo projetos ponta a ponta: da extração de dados e automação de fluxos, à gestão do orçamento e entrega de KPIs executivos.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-white/20 text-xs font-semibold rounded-full backdrop-blur-xs flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Gestão de Projetos (Ágil)</span>
+              <span class="px-3 py-1 bg-white/20 text-xs font-semibold rounded-full backdrop-blur-xs flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Automação & Legal Tech</span>
+              <span class="px-3 py-1 bg-white/20 text-xs font-semibold rounded-full backdrop-blur-xs flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Power BI, Tableau & SQL</span>
+              <span class="px-3 py-1 bg-white/20 text-xs font-semibold rounded-full backdrop-blur-xs flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Jira & Salesforce</span>
+            </div>
+          </div>
+          <div class="hidden lg:block shrink-0 ml-6">
+            <img src="https://media.licdn.com/dms/image/v2/D4D03AQEvFdxHbxecvQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1715823319183?e=1792022400&v=beta&t=Hp-Xc1UzJVWbsatJ9oFmW8KRkBjxD2o6-g4w_0UcGXY" alt="Lucas Pereira" class="w-40 h-40 rounded-full border-4 border-white/20 shadow-xl object-cover">
+          </div>
+        </div>
+
+        <!-- Trajetória Profissional em Destaque -->
+        <div>
+          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-4 flex items-center gap-2">
+            <i data-lucide="history" class="w-4 h-4 text-brand-primary"></i> Trajetória e Impacto Direto
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            
+            <!-- Wellhub -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs border-l-4 border-l-brand-primary">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="text-base font-bold text-slate-900">Wellhub (Gympass)</h4>
+                <span class="text-[10px] bg-blue-50 text-blue-700 px-2 py-1 rounded font-bold uppercase">4 anos, 9 meses</span>
+              </div>
+              <p class="text-xs font-bold text-brand-primary mb-3">Legal Operations Specialist, Team Lead</p>
+              <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside marker:text-slate-300">
+                <li>Liderança estratégica e gestão direta de pessoas no time de Legal Ops (onboarding e desempenho).</li>
+                <li>Estruturação do dashboard executivo (Salesforce/Jira) e implantação da ferramenta global de litígios.</li>
+                <li>Liderança de pilotos práticos com Inteligência Artificial aplicada ao jurídico.</li>
+                <li>Automações no Salesforce: feed confidencial, SLAs rígidos, triagem automática e regras de compliance.</li>
+                <li>Gestão orçamentária do stack tecnológico e treinamentos para toda a unidade de negócio.</li>
+              </ul>
+            </div>
+
+            <!-- Mercado Livre -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs border-l-4 border-l-yellow-400">
+              <div class="flex justify-between items-start mb-2">
+                <h4 class="text-base font-bold text-slate-900">Mercado Livre</h4>
+                <span class="text-[10px] bg-yellow-50 text-yellow-700 px-2 py-1 rounded font-bold uppercase">3 anos, 7 meses</span>
+              </div>
+              <p class="text-xs font-bold text-yellow-600 mb-3">Assistente de Legal Operations</p>
+              <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside marker:text-slate-300">
+                <li>Atuação técnica na Célula de Inteligência de Dados, mapeando e aprimorando fluxos operacionais.</li>
+                <li>Domínio de processos ETL (extração, transformação e carga) para limpeza e cruzamento de bases legais.</li>
+                <li>Data Storytelling: construção de painéis complexos usando Tableau, Power BI e Power Query.</li>
+                <li>Reconhecimento oficial: 1º Lugar no II Concurso de Empreendedorismo e Inovação do Jurídico (2018).</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Projetos Entregues -->
+        <div>
+          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-4 mt-8 flex items-center gap-2">
+            <i data-lucide="award" class="w-4 h-4 text-brand-primary"></i> Projetos Estruturais Entregues
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4"><i data-lucide="cloud" class="w-5 h-5"></i></div>
+              <h4 class="text-sm font-bold text-slate-900">CLM no Salesforce</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Estruturação ponta a ponta de um sistema de Contract Lifecycle Management utilizando arquitetura Salesforce. Redução de fricção entre áreas de negócio e jurídico, estabelecendo esteira 100% auditável.
+              </p>
+            </div>
+            
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+              <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4"><i data-lucide="bot" class="w-5 h-5"></i></div>
+              <h4 class="text-sm font-bold text-slate-900">IA para Contratos</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Implementação de ferramenta de revisão com base no playbook corporativo e histórico de contratos. Aplicação de clause swap automatizado e registro analítico de deviations contratuais.
+              </p>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4"><i data-lucide="database" class="w-5 h-5"></i></div>
+              <h4 class="text-sm font-bold text-slate-900">Sistema de Contencioso</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Desenvolvimento de fluxos sistêmicos e integração de dados para governança de litígios. Criação de visão gerencial 360º para controle de provisionamento contábil e contingências.
+              </p>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+              <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4"><i data-lucide="check-square" class="w-5 h-5"></i></div>
+              <h4 class="text-sm font-bold text-slate-900">Intake Jurídico no Jira</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Estruturação completa do fluxo de entrada de demandas (intake) utilizando o Jira, garantindo triagem automática de solicitações, priorização clara e visibilidade total de SLAs para as áreas de negócio.
+              </p>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
+              <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4"><i data-lucide="bar-chart-4" class="w-5 h-5"></i></div>
+              <h4 class="text-sm font-bold text-slate-900">Arquitetura de Dados Jurídicos</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Desenvolvimento de toda a esteira de dados do jurídico, desde a extração (ETL), transformação e limpeza da base até a consolidação em dashboards gerenciais (Power BI/Tableau) para suporte à decisão.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-4 mt-8 flex items-center gap-2">
+            <i data-lucide="briefcase" class="w-4 h-4 text-brand-primary"></i> Governança & Operações Complementares
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2"><i data-lucide="kanban-square" class="w-4 h-4 text-slate-400"></i> Gestão de Projetos</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">Uso intensivo de metodologias ágeis e ferramentas de gestão (Asana/Trello/Jira) para orquestrar rotinas do departamento, garantindo priorização alinhada ao nível de esforço e impacto no negócio.</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Gestão do Conhecimento</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">Compilação de bases de conhecimento jurídico, criação de boletins informativos e conteúdo de intranet, garantindo que equipe e clientes internos acessem informações atualizadas de forma self-service.</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+              <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2"><i data-lucide="pie-chart" class="w-4 h-4 text-slate-400"></i> Estratégia e Operações</h4>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">Gestão orçamentária rigorosa das ferramentas e licenças do departamento. Planejamento e execução de treinamentos jurídicos preventivos focados na mitigação de riscos para o time e áreas de negócio.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB: ROADMAP ================= -->
+      <section id="tab-roadmap" class="hidden space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="max-w-3xl">
+            <span class="px-2.5 py-1 bg-blue-50 text-brand-primary rounded-md text-xs font-semibold uppercase">Framework de Implementação</span>
+            <h2 class="text-lg font-bold text-slate-900 mt-2">Plano Estratégico Decolar (180 Dias)</h2>
+            <p class="text-xs text-slate-500 mt-1">Detalhes do escopo de atuação para estruturar processos, reduzir custos e implementar cultura orientada a dados.</p>
+          </div>
+
+          <div class="mt-8 space-y-4">
+            
+            <!-- 30 DIAS (Aberta por padrão) -->
+            <details open class="group bg-slate-50 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <summary class="flex items-center gap-4 p-4 font-bold text-slate-900 cursor-pointer">
+                <span class="w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center text-xs shadow-md shrink-0">30d</span>
+                <span class="flex-1">Fase 1: Diagnóstico Profundo, Mapeamento & Estrutura Base</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+              </summary>
+              <div class="px-4 pb-5 pl-[4.5rem]">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600">
+                  <div>
+                    <strong class="text-slate-800">Processos & Contencioso:</strong>
+                    <p class="mt-1">Mapear a jornada ponta a ponta do processo e auditar a consistência da base de dados atual (Benner/Projuris), identificando duplicidades.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Orçamento & Custos:</strong>
+                    <p class="mt-1">Levantar o registro atual de despesas, licenças e contingências (ERP vs. Planilhas). Avaliar capacidade de integração via API/Webhooks.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Governança de Projetos:</strong>
+                    <p class="mt-1">Implementar quadro oficial de Legal Ops categorizado por esforço x impacto, organizando a entrada de novas demandas.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Comunicação & Stakeholders:</strong>
+                    <p class="mt-1">Alinhamento inicial com lideranças (CX, Operações Aéreas/Hotelaria e TI) para identificar dores críticas de subsídios.</p>
+                  </div>
+                </div>
+              </div>
+            </details>
+            
+            <!-- 60 DIAS (Fechada) -->
+            <details class="group bg-slate-50 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <summary class="flex items-center gap-4 p-4 font-bold text-slate-900 cursor-pointer">
+                <span class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs shadow-md shrink-0">60d</span>
+                <span class="flex-1">Fase 2: Quick Wins, Padronização & Primeiras Visibilidades</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+              </summary>
+              <div class="px-4 pb-5 pl-[4.5rem]">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600">
+                  <div>
+                    <strong class="text-slate-800">Automação Operacional:</strong>
+                    <p class="mt-1">Implementar gatilho automático de solicitação de subsídios, integrando sistemas de litígio com a base de atendimento ao cliente.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Gestão de Fornecedores:</strong>
+                    <p class="mt-1">Publicação da matriz de SLA, diretrizes de contingenciamento e política clara de alçadas financeiras para acordos em massa.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Primeiro Painel Financeiro:</strong>
+                    <p class="mt-1">Entrega do Dashboard v1 cruzando custos de escritórios, licenças e valores provisionados versus desembolsados.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Report Executivo (Stakeholders):</strong>
+                    <p class="mt-1">Envio da 1ª edição do Status Report mensal para C-Level demonstrando gargalos sanados e primeiras economias (savings).</p>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- 90 DIAS (Fechada) -->
+            <details class="group bg-slate-50 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <summary class="flex items-center gap-4 p-4 font-bold text-slate-900 cursor-pointer">
+                <span class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs shadow-md shrink-0">90d</span>
+                <span class="flex-1">Fase 3: Escala Tecnológica, IA & Scorecards</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+              </summary>
+              <div class="px-4 pb-5 pl-[4.5rem]">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600">
+                  <div>
+                    <strong class="text-slate-800">Camada de IA Aplicada:</strong>
+                    <p class="mt-1">Leitura automatizada de iniciais do JEC e notificações do Procon para extração de fatos, gerando minutas de defesa padronizadas.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Scorecard de Fornecedores 360º:</strong>
+                    <p class="mt-1">Painel consolidado cruzando custo unitário por processo, aderência a SLA de prazos judiciais e índice de êxito dos parceiros.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Pipeline Integrado (Rituais):</strong>
+                    <p class="mt-1">Consolidação das reuniões quinzenais de priorização da esteira ágil, garantindo previsibilidade de entregas tecnológicas.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Comitê de Causas-Raiz:</strong>
+                    <p class="mt-1">Reuniões bimestrais estruturadas com áreas de Produto para atacar parceiros ofensores baseados em jurimetria.</p>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- 180 DIAS (Fechada) -->
+            <details class="group bg-slate-50 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <summary class="flex items-center gap-4 p-4 font-bold text-slate-900 cursor-pointer">
+                <span class="w-10 h-10 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs shadow-md shrink-0">180d</span>
+                <span class="flex-1">Fase 4: Inteligência Preditiva & Prevenção</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+              </summary>
+              <div class="px-4 pb-5 pl-[4.5rem]">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600">
+                  <div>
+                    <strong class="text-slate-800">Gestão Orçamentária Avançada:</strong>
+                    <p class="mt-1">Projeção preditiva de budget baseada em sazonalidade de alta temporada, integrando automaticamente estimativas de contingência.</p>
+                  </div>
+                  <div>
+                    <strong class="text-slate-800">Prevenção no Core Business:</strong>
+                    <p class="mt-1">Retroalimentação contínua de dados de condenações para a operação ajustar políticas de reembolso, evitando judicialização.</p>
+                  </div>
+                  <div class="col-span-2">
+                    <strong class="text-slate-800">Cultura Data-Driven (Self-Service):</strong>
+                    <p class="mt-1">Liberação de acessos parametrizados para que as áreas de negócio consultem o status de demandas jurídicas em tempo real, eliminando trocas de e-mail e planilhas avulsas.</p>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB: COCKPIT ================= -->
+      <section id="tab-dashboard" class="hidden space-y-6">
+        
+        <!-- KPIs Row 1 (Core Operacional) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+              <span>Estoque Ativo (Volumetria)</span><i data-lucide="layers" class="w-4 h-4 text-blue-500"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-slate-900">12.450</span>
+              <span class="text-xs font-semibold text-emerald-600">-5.2% MoM</span>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1">45% JEC / 35% Cível / 20% Procon</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+              <span>Entrada de Novos Casos</span><i data-lucide="trending-up" class="w-4 h-4 text-orange-500"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-slate-900">1.280</span>
+              <span class="text-xs font-semibold text-red-500">+12% vs Mês Ant.</span>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1">Reflexo sazonalidade (Férias Julho)</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+              <span>SLA Resposta Interna (CX)</span><i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-slate-900">4,2 Dias</span>
+              <span class="text-xs font-semibold text-red-500">Gargalo</span>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1">Meta interna: &lt; 2 Dias. Ação requerida.</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+              <span>Processos Paralisados (>90d)</span><i data-lucide="alert-triangle" class="w-4 h-4 text-red-500"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-slate-900">842</span>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1">Alerta de auditoria na base de parceiros</p>
+          </div>
+        </div>
+
+        <!-- KPIs Row 2 (Performance & Finanças) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+              <span>Taxa de Acordo Pré-Processual</span><i data-lucide="handshake" class="w-4 h-4 text-emerald-500"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-slate-900">38%</span>
+              <span class="text-xs font-semibold text-emerald-600">+8% via parametriz.</span>
+            </div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+              <span>Índice de Procedência (Êxito)</span><i data-lucide="gavel" class="w-4 h-4 text-indigo-500"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-slate-900">62.4%</span>
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1">Média consolidada dos escritórios</p>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">
+            <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+              <span>Custo Médio / Processo</span><i data-lucide="calculator" class="w-4 h-4 text-purple-500"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-slate-900">R$ 2.450</span>
+              <span class="text-xs font-semibold text-emerald-600">-12% YTD</span>
+            </div>
+          </div>
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs bg-emerald-50/50">
+            <div class="flex items-center justify-between text-emerald-700 text-[11px] font-bold uppercase tracking-wider">
+              <span>Saving Total Acordos</span><i data-lucide="piggy-bank" class="w-4 h-4 text-emerald-600"></i>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-2xl font-bold text-emerald-900">R$ 1.8M</span>
+            </div>
+            <p class="text-[10px] text-emerald-600 mt-1">Economia real vs Expectativa de Sentença</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="mb-4"><h3 class="text-sm font-bold text-slate-900">Litígios por Causa-Raiz</h3></div>
+            <div class="h-56 relative"><canvas id="chartRootCauses"></canvas></div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="mb-4"><h3 class="text-sm font-bold text-slate-900">Comparativo: Sentença vs Acordo</h3></div>
+            <div class="h-56 relative"><canvas id="chartROI"></canvas></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= TAB: FORNECEDORES & BUDGET ================= -->
+      <section id="tab-partners" class="hidden space-y-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="mb-5 border-b border-slate-100 pb-4">
+            <h3 class="text-base font-bold text-slate-900">Scorecard de Escritórios & Spend Management</h3>
+            <p class="text-xs text-slate-500 mt-1">Detalhamento de performance jurídica, SLAs operacionais e consumo de honorários.</p>
+          </div>
+
+          <div class="space-y-3">
+            
+            <!-- ESCRITORIO 1 -->
+            <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+              <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 transition select-none">
+                <div class="flex items-center gap-3 w-1/4">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-bold text-sm text-slate-900">Alpha Legal (SP/RJ)</span>
+                </div>
+                <div class="w-1/4 text-xs text-slate-500">Êxito Jurídico: <span class="font-bold text-slate-800">76%</span></div>
+                <div class="w-1/4 text-xs text-slate-500">SLA Resposta: <span class="font-bold text-emerald-600">98.4%</span></div>
+                <div class="w-1/4 text-xs flex justify-between items-center text-slate-500">
+                  <span>Budget (YTD): <strong class="text-slate-800">R$ 840k (72%)</strong></span>
+                  <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </div>
+              </summary>
+              <div class="p-4 bg-slate-50 border-t border-slate-100 text-xs grid grid-cols-3 gap-6">
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Métricas Operacionais</strong>
+                  <ul class="mt-2 space-y-1.5 text-slate-600">
+                    <li><span class="font-medium text-slate-800">Especialidade:</span> Contencioso de Massa JEC</li>
+                    <li><span class="font-medium text-slate-800">Volume Ativo:</span> 3.420 pastas</li>
+                    <li><span class="font-medium text-slate-800">Revelia / Perda Prazo:</span> 0.05% (Adequado)</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Indicadores Financeiros</strong>
+                  <ul class="mt-2 space-y-1.5 text-slate-600">
+                    <li><span class="font-medium text-slate-800">Custo Médio / Pasta:</span> R$ 245,00</li>
+                    <li><span class="font-medium text-slate-800">Saving Acordos (Q3):</span> R$ 320.000</li>
+                    <li><span class="font-medium text-slate-800">Formato:</span> Fee Mensal + Success Fee</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Avaliação Legal Ops</strong>
+                  <p class="mt-2 text-emerald-700 bg-emerald-50 p-2 rounded-lg border border-emerald-100">
+                    NPS Interno Excelente (9.2). Automações integradas via API com sistema interno funcionando sem gargalos.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <!-- ESCRITORIO 2 -->
+            <details class="group bg-white rounded-xl border border-red-200 overflow-hidden shadow-xs">
+              <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-red-50/50 transition select-none">
+                <div class="flex items-center gap-3 w-1/4">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span><span class="font-bold text-sm text-slate-900">Borges Associados (NE)</span>
+                </div>
+                <div class="w-1/4 text-xs text-slate-500">Êxito Jurídico: <span class="font-bold text-slate-800">48%</span></div>
+                <div class="w-1/4 text-xs text-slate-500">SLA Resposta: <span class="font-bold text-red-600">82.1%</span></div>
+                <div class="w-1/4 text-xs flex justify-between items-center text-slate-500">
+                  <span>Budget (YTD): <strong class="text-red-700">R$ 520k (95%)</strong></span>
+                  <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </div>
+              </summary>
+              <div class="p-4 bg-red-50/30 border-t border-red-100 text-xs grid grid-cols-3 gap-6">
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Métricas Operacionais</strong>
+                  <ul class="mt-2 space-y-1.5 text-slate-600">
+                    <li><span class="font-medium text-slate-800">Volume Ativo:</span> 1.850 pastas</li>
+                    <li><span class="font-medium text-red-700">Revelia / Perda Prazo:</span> 1.2% (Crítico)</li>
+                    <li><span class="font-medium text-slate-800">Tempo Defesa:</span> 7 dias (Lento)</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Indicadores Financeiros</strong>
+                  <ul class="mt-2 space-y-1.5 text-slate-600">
+                    <li><span class="font-medium text-slate-800">Custo Médio / Pasta:</span> R$ 281,00</li>
+                    <li><span class="font-medium text-red-700">Gatilho Budget:</span> 95% consumido.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong class="text-red-800 uppercase tracking-wide text-[10px]">Ação Imediata (Ops)</strong>
+                  <p class="mt-2 text-red-700 bg-red-100/50 p-2 rounded-lg border border-red-200">
+                    Notificação contratual de quebra de SLA enviada. Planejando redistribuição parcial de carteira para internalização via IA no Q4.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <!-- ESCRITORIO 3 -->
+            <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+              <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 transition select-none">
+                <div class="flex items-center gap-3 w-1/4">
+                  <span class="w-2 h-2 rounded-full bg-blue-500"></span><span class="font-bold text-sm text-slate-900">Fontes & Tavares (Trabalhista)</span>
+                </div>
+                <div class="w-1/4 text-xs text-slate-500">Êxito Jurídico: <span class="font-bold text-slate-800">88%</span></div>
+                <div class="w-1/4 text-xs text-slate-500">SLA Resposta: <span class="font-bold text-emerald-600">100%</span></div>
+                <div class="w-1/4 text-xs flex justify-between items-center text-slate-500">
+                  <span>Budget (YTD): <strong class="text-slate-800">R$ 380k (60%)</strong></span>
+                  <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </div>
+              </summary>
+              <div class="p-4 bg-slate-50 border-t border-slate-100 text-xs grid grid-cols-3 gap-6">
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Métricas Operacionais</strong>
+                  <ul class="mt-2 space-y-1.5 text-slate-600">
+                    <li><span class="font-medium text-slate-800">Especialidade:</span> Reclamatórias Trabalhistas</li>
+                    <li><span class="font-medium text-slate-800">Volume Ativo:</span> 142 pastas</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Indicadores Financeiros</strong>
+                  <ul class="mt-2 space-y-1.5 text-slate-600">
+                    <li><span class="font-medium text-slate-800">Custo Médio / Pasta:</span> R$ 2.670,00</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong class="text-slate-800 uppercase tracking-wide text-[10px]">Status</strong>
+                  <p class="mt-2 text-slate-600">Carteira estável e budget sob controle. Auditoria de horas faturáveis programada para Novembro.</p>
+                </div>
+              </div>
+            </details>
+            
+            <!-- ESCRITORIO 4 -->
+            <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+              <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 transition select-none">
+                <div class="flex items-center gap-3 w-1/4">
+                  <span class="w-2 h-2 rounded-full bg-indigo-500"></span><span class="font-bold text-sm text-slate-900">Menezes Legal (Cível Estratégico)</span>
+                </div>
+                <div class="w-1/4 text-xs text-slate-500">Êxito Jurídico: <span class="font-bold text-slate-800">92%</span></div>
+                <div class="w-1/4 text-xs text-slate-500">SLA Resposta: <span class="font-bold text-emerald-600">96.5%</span></div>
+                <div class="w-1/4 text-xs flex justify-between items-center text-slate-500">
+                  <span>Budget (YTD): <strong class="text-slate-800">R$ 1.2M (48%)</strong></span>
+                  <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </div>
+              </summary>
+              <div class="p-4 bg-slate-50 border-t border-slate-100 text-xs">
+                <p class="text-slate-600">Atuam nas ações de alto risco/valor (acima de R$ 100k) e ações civis públicas. Contratos negociados por valor fechado/projeto (capped fees).</p>
+              </div>
+            </details>
+
+            <!-- FORNECEDOR TECH -->
+            <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+              <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 transition select-none">
+                <div class="flex items-center gap-3 w-1/4">
+                  <span class="w-2 h-2 rounded-full bg-slate-800"></span><span class="font-bold text-sm text-slate-900">Software Benner/Projuris (SaaS)</span>
+                </div>
+                <div class="w-1/4 text-xs text-slate-500">Categoria: <span class="font-bold text-slate-800">Licenças Tech</span></div>
+                <div class="w-1/4 text-xs text-slate-500">Uptime: <span class="font-bold text-emerald-600">99.9%</span></div>
+                <div class="w-1/4 text-xs flex justify-between items-center text-slate-500">
+                  <span>Budget Anual: <strong class="text-slate-800">R$ 150k</strong></span>
+                  <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </div>
+              </summary>
+              <div class="p-4 bg-slate-50 border-t border-slate-100 text-xs">
+                <p class="text-slate-600">Renovação prevista para 15/12. Necessário revisar volumetria contratada devido ao plano de desjudicialização (Aba Roadmap Fase 4).</p>
+              </div>
+            </details>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB: KANBAN ================= -->
+      <section id="tab-kanban" class="hidden space-y-4">
+        <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <h4 class="text-sm font-bold text-indigo-900">Governança Ágil de Legal Ops</h4>
+            <p class="text-xs text-indigo-700 mt-0.5">Execução tática do planejamento (Roadmap) através de Sprints operacionais.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <!-- Coluna 1: Backlog -->
+          <div class="bg-slate-200/60 p-3 rounded-2xl flex flex-col min-h-[500px]">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-300">
+              <span class="text-[11px] font-bold text-slate-700 uppercase">Backlog (Ideias/Futu.)</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 bg-white text-slate-600 rounded-full">3</span>
+            </div>
+            <div class="space-y-3 mt-3 flex-1 opacity-80">
+              <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-slate-400">
+                <h5 class="text-[11px] font-bold text-slate-800">Projetar Budget 2027</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Previsão baseada em sazonalidade de viagens (Fase 4).</p>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-slate-400">
+                <h5 class="text-[11px] font-bold text-slate-800">IA para Triagem Inicial</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Leitura de JEC e minutas automáticas (Fase 3).</p>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-slate-400">
+                <h5 class="text-[11px] font-bold text-slate-800">Integração ERP Fin.</h5>
+                <p class="text-[10px] text-slate-500 mt-1">API direta para pagamentos automáticos de guias.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna 2: A Fazer -->
+          <div class="bg-slate-200/60 p-3 rounded-2xl flex flex-col min-h-[500px]">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-300">
+              <span class="text-[11px] font-bold text-slate-700 uppercase">A Fazer (Priorizado)</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 bg-white text-slate-600 rounded-full">2</span>
+            </div>
+            <div class="space-y-3 mt-3 flex-1">
+              <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-amber-400">
+                <h5 class="text-[11px] font-bold text-slate-800">Matriz Paramétrica de Acordos</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Definir tetos para conciliação em massa no Procon (Fase 2).</p>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-amber-400">
+                <h5 class="text-[11px] font-bold text-slate-800">Dashboard v1 de Custos</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Painel no Power BI cruzando honorários e provisões (Fase 2).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna 3: Em Andamento -->
+          <div class="bg-blue-100/40 p-3 rounded-2xl flex flex-col min-h-[500px] border border-blue-200/50">
+            <div class="flex items-center justify-between pb-2 border-b border-blue-200">
+              <span class="text-[11px] font-bold text-blue-800 uppercase flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> Em Andamento
+              </span>
+              <span class="text-[10px] font-bold px-2 py-0.5 bg-white text-blue-600 rounded-full">3</span>
+            </div>
+            <div class="space-y-3 mt-3 flex-1">
+              <div class="bg-white p-3 rounded-xl border border-blue-200 shadow-sm border-l-4 border-l-blue-500">
+                <h5 class="text-[11px] font-bold text-slate-800">Diagnóstico AS-IS (Contencioso)</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Mapear fluxo desde notificação até encerramento (Fase 1).</p>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-blue-200 shadow-sm border-l-4 border-l-blue-500">
+                <h5 class="text-[11px] font-bold text-slate-800">Quadro de Projetos</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Setup desta ferramenta de visibilidade executiva.</p>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-blue-200 shadow-sm border-l-4 border-l-blue-500">
+                <h5 class="text-[11px] font-bold text-slate-800">Gatilho de Subsídios Automático</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Teste de disparo de alerta para o SAC ao cadastrar ação.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna 4: Concluído -->
+          <div class="bg-emerald-50/50 p-3 rounded-2xl flex flex-col min-h-[500px] border border-emerald-100/50">
+            <div class="flex items-center justify-between pb-2 border-b border-emerald-200">
+              <span class="text-[11px] font-bold text-emerald-700 uppercase">Concluído</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 bg-white text-emerald-600 rounded-full">2</span>
+            </div>
+            <div class="space-y-3 mt-3 flex-1 opacity-70">
+              <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
+                <h5 class="text-[11px] font-bold text-slate-800 line-through">Alinhamento C-Level</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Expectativas ajustadas com área de Operações.</p>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
+                <h5 class="text-[11px] font-bold text-slate-800 line-through">Auditoria de Base Histórica</h5>
+                <p class="text-[10px] text-slate-500 mt-1">Saneamento de duplicidades no software jurídico.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= TAB: ASSISTENTE DE IA (LIVE) ================= -->
+      <section id="tab-ai" class="hidden h-full flex flex-col space-y-4">
+        
+        <div class="bg-gradient-to-r from-indigo-900 to-brand-primary rounded-2xl p-6 text-white shadow-lg relative overflow-hidden shrink-0">
+          <div class="relative z-10">
+            <span class="px-2.5 py-1 bg-white/20 text-white rounded-md text-xs font-semibold uppercase tracking-wider backdrop-blur-xs">Simulador Legal Ops</span>
+            <h2 class="text-xl font-bold mt-2">Automação de Respostas: Reclame Aqui & Consumidor.gov</h2>
+            <p class="text-sm text-blue-100 mt-1 max-w-3xl">
+              Esta ferramenta demonstra o uso prático de IA Generativa conectada ao playbook da Decolar. Cole a reclamação abaixo para extrair dados, analisar o risco via CDC/ANAC e gerar a minuta de resposta padronizada automaticamente.
+            </p>
+          </div>
+          <i data-lucide="bot" class="w-32 h-32 absolute right-4 -bottom-4 text-white/10"></i>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 min-h-[500px]">
+          
+          <!-- INPUT AREA -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col overflow-hidden">
+            <div class="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="file-input" class="w-4 h-4 text-indigo-600"></i> Entrada de Dados (Reclamação)
+              </h3>
+            </div>
+            
+            <div class="p-4 flex-1 flex flex-col">
+              <div class="flex gap-2 mb-3">
+                <button onclick="fillAI('voo')" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold transition border border-blue-200">
+                  ⚡ Ex: Atraso de Voo (Cia Aérea)
+                </button>
+                <button onclick="fillAI('reembolso')" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-lg text-xs font-semibold transition border border-amber-200">
+                  ⚡ Ex: Reembolso não efetuado
+                </button>
+              </div>
+              
+              <textarea id="ai-input" class="w-full flex-1 p-4 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 text-sm text-slate-700 custom-scrollbar resize-none font-mono" placeholder="Cole o texto da reclamação do cliente aqui..."></textarea>
+              
+              <button onclick="generateAIResponse()" id="btn-generate" class="mt-4 w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-md">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> <span id="btn-generate-text">Gerar Minuta de Resposta</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- OUTPUT AREA -->
+          <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-xl flex flex-col overflow-hidden text-slate-300">
+            <div class="p-4 border-b border-slate-800 bg-slate-800/50 flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <i data-lucide="cpu" class="w-4 h-4 text-emerald-400"></i> Output da Inteligência Artificial
+              </h3>
+              <div id="ai-status" class="flex gap-1.5 hidden">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse delay-75"></span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse delay-150"></span>
+              </div>
+            </div>
+            
+            <div class="p-5 flex-1 overflow-y-auto custom-scrollbar relative">
+              
+              <!-- Empty State -->
+              <div id="ai-empty" class="absolute inset-0 flex flex-col items-center justify-center text-slate-500">
+                <i data-lucide="file-search" class="w-12 h-12 mb-3 opacity-20"></i>
+                <p class="text-sm">Aguardando entrada de dados...</p>
+              </div>
+
+              <!-- Output Container -->
+              <div id="ai-output-container" class="hidden space-y-4">
+                
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                  <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                    <span class="block text-[10px] uppercase text-slate-400 font-bold mb-1">Classificação do Risco</span>
+                    <span id="out-risk" class="text-xs font-semibold text-white px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/30 text-amber-300">-</span>
+                  </div>
+                  <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                    <span class="block text-[10px] uppercase text-slate-400 font-bold mb-1">Sentimento do Cliente</span>
+                    <span id="out-sentiment" class="text-xs font-semibold text-white">-</span>
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <h4 class="text-xs uppercase font-bold text-indigo-400">Minuta Sugerida (Decolar)</h4>
+                    <button onclick="copyDraft()" class="text-[10px] px-2 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-300 flex items-center gap-1 transition">
+                      <i data-lucide="copy" class="w-3 h-3"></i> Copiar
+                    </button>
+                  </div>
+                  <div id="out-draft" class="p-4 bg-slate-950 rounded-xl font-mono text-xs leading-relaxed text-slate-300 border border-slate-800 min-h-[150px]"></div>
+                </div>
+                
+                <div class="mt-4 p-3 rounded-xl border border-emerald-900/50 bg-emerald-900/10">
+                  <span class="block text-[10px] uppercase text-emerald-500 font-bold mb-1">Estratégia Legal Ops Recomendada</span>
+                  <p id="out-strategy" class="text-xs text-emerald-100/70 leading-relaxed"></p>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs z-50 transform translate-y-24 opacity-0 transition-all duration-300">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-message">Copiado com sucesso!</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // === TAB NAVIGATION LOGIC ===
+    function switchTab(tabId) {
+      const tabs = ['sobre', 'roadmap', 'dashboard', 'partners', 'kanban', 'ai'];
+      
+      tabs.forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        const nav = document.getElementById('nav-' + t);
+        if (el && nav) {
+          if (t === tabId) {
+            el.classList.remove('hidden');
+            if(t === 'ai') {
+              nav.classList.add('bg-indigo-900/40', 'border-indigo-500');
+            } else {
+              nav.className = "nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all bg-brand-lightBlue/20 text-blue-300 border border-brand-lightBlue/30";
+            }
+          } else {
+            el.classList.add('hidden');
+            if(t === 'ai') {
+              nav.className = "nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:bg-slate-800/60 hover:text-white border border-indigo-500/30 bg-indigo-900/20 mt-4 relative overflow-hidden";
+            } else {
+              nav.className = "nav-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-slate-300 hover:bg-slate-800/60 hover:text-white";
+            }
+          }
+        }
+      });
+
+      const textData = {
+        'sobre': { t: 'Apresentação: Sobre Mim', s: 'Background, visão estratégica e entregas relevantes' },
+        'roadmap': { t: 'Roadmap Estratégico (180 Dias)', s: 'Plano detalhado de implementação para o Jurídico Decolar' },
+        'dashboard': { t: 'Cockpit & Indicadores (AS-IS)', s: 'Radiografia atual da volumetria, gargalos e performance' },
+        'partners': { t: 'Fornecedores & Budget', s: 'Performance operacional e gestão financeira dos escritórios credenciados' },
+        'kanban': { t: 'Pipeline de Projetos (Legal Ops)', s: 'Visibilidade executiva das Sprints táticas da área' },
+        'ai': { t: 'Ferramenta: AI Auto-Response', s: 'Demonstração prática de automação de defesas administrativas via IA Generativa' }
+      };
+
+      if(textData[tabId]) {
+        document.getElementById('page-title').innerText = textData[tabId].t;
+        document.getElementById('page-subtitle').innerText = textData[tabId].s;
+      }
+      
+      if(tabId === 'dashboard') {
+        setTimeout(renderCharts, 100);
+      }
+    }
+
+    // === CHART LOGIC ===
+    let chartsInit = false;
+    function renderCharts() {
+      if(chartsInit) return;
+      
+      const elCauses = document.getElementById('chartRootCauses');
+      if(elCauses) {
+        new Chart(elCauses.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Voo Cancelado/Atraso', 'Reembolso Demorado', 'Alteração Malha', 'Overbooking', 'Bagagem'],
+            datasets: [{
+              data: [450, 320, 210, 140, 90],
+              backgroundColor: ['#1E3A8A', '#3B82F6', '#60A5FA', '#818CF8', '#CBD5E1'],
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { x: { grid: { display: false } } }
+          }
+        });
+      }
+
+      const elROI = document.getElementById('chartROI');
+      if(elROI) {
+        new Chart(elROI.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Sentença Judicial', 'Acordo Parametrizado'],
+            datasets: [{
+              data: [6200, 1600],
+              backgroundColor: ['#EF4444', '#10B981'],
+              borderRadius: 6, barThickness: 45
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+            plugins: { legend: { display: false } },
+            scales: { x: { grid: { color: '#f1f5f9' } }, y: { grid: { display: false } } }
+          }
+        });
+      }
+      chartsInit = true;
+    }
+
+    // === AI SIMULATOR LOGIC ===
+    const templates = {
+      voo: "Comprei um pacote para Buenos Aires e meu voo da Aerolíneas Argentinas foi cancelado faltando 4 horas pro embarque. Fiquei no aeroporto sem assistência, tive que pagar comida do meu bolso e perdi a primeira diária do hotel que já estava paga na Decolar. Quero o reembolso da diária e danos morais urgente, absurdo total!",
+      reembolso: "Cancelei minha reserva de hotel no Rio de Janeiro dentro do prazo estipulado de cancelamento grátis no dia 15/08. A Decolar informou que o estorno no cartão de crédito seria em até 2 faturas, mas já se passaram 3 faturas e nada. Preciso do meu dinheiro de volta."
+    };
+
+    function fillAI(type) {
+      document.getElementById('ai-input').value = templates[type];
+    }
+
+    function generateAIResponse() {
+      const input = document.getElementById('ai-input').value.trim();
+      if(!input) {
+        showToast("Cole ou selecione uma reclamação primeiro.");
+        return;
+      }
+
+      const btn = document.getElementById('btn-generate');
+      const btnText = document.getElementById('btn-generate-text');
+      const status = document.getElementById('ai-status');
+      
+      btn.disabled = true;
+      btn.classList.add('opacity-70');
+      btnText.innerText = "Processando LLM...";
+      status.classList.remove('hidden');
+
+      document.getElementById('ai-empty').classList.add('hidden');
+      document.getElementById('ai-output-container').classList.add('hidden');
+      document.getElementById('out-draft').innerText = "";
+      document.getElementById('out-draft').classList.remove('typing-indicator');
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.classList.remove('opacity-70');
+        btnText.innerText = "Gerar Minuta de Resposta";
+        status.classList.add('hidden');
+        document.getElementById('ai-output-container').classList.remove('hidden');
+        
+        processAIResult(input);
+      }, 1500);
+    }
+
+    function processAIResult(text) {
+      const lowerText = text.toLowerCase();
+      let risk, sentiment, strategy, draftText;
+
+      if(lowerText.includes("cancelado") || lowerText.includes("voo")) {
+        risk = "Alto (Solidariedade - CDC art. 14)";
+        sentiment = "Extremamente Frustrado 🔴";
+        strategy = "Oferecer reembolso imediato da diária perdida de forma extrajudicial. Solicitar log à cia aérea comprovando falta de assistência material para ação de regresso.";
+        draftText = `Olá, [Nome do Cliente]. Sentimos muito pelos transtornos relatados em sua viagem para Buenos Aires.
+
+A Decolar, como intermediadora, atua fortemente junto às companhias aéreas para minimizar impactos de cancelamentos de malha. Conforme Resolução 400 da ANAC, a assistência material é de responsabilidade direta da transportadora (Aerolíneas Argentinas). 
+
+Contudo, prezando pela sua experiência conosco e buscando uma rápida solução extrajudicial, autorizamos excepcionalmente o reembolso integral correspondente à primeira diária não usufruída em sua hospedagem, no valor de R$ [VALOR_A_PREENCHER].
+
+Por favor, nos confirme os dados bancários para o depósito em até 5 dias úteis e o envio dos comprovantes de alimentação para solicitarmos reembolso junto à cia aérea.
+
+Ficamos à disposição.
+Equipe de Relacionamento Decolar`;
+
+      } else {
+        risk = "Médio (Atraso de Estorno)";
+        sentiment = "Insatisfeito 🟡";
+        strategy = "Erro sistêmico ou atraso da adquirente (adquirente do cartão). Gerar comprovante (TID) do estorno no painel financeiro e anexar imediatamente na plataforma Consumidor.gov.";
+        draftText = `Olá, [Nome do Cliente]. Compreendemos a sua preocupação com o prazo de reembolso.
+
+Verificamos em nosso sistema financeiro que o cancelamento de sua reserva no Rio de Janeiro (Reserva #[CODIGO]) foi processado dentro do prazo de cancelamento grátis no dia 15/08.
+
+O repasse do valor foi devidamente autorizado pela Decolar para a administradora do seu cartão de crédito. Em anexo a esta resposta, enviamos o comprovante de estorno (Carta de Cancelamento / TID), documento oficial que comprova a devolução.
+
+Como o prazo de 2 faturas já expirou, sugerimos que entre em contato diretamente com o emissor do seu cartão, portando o comprovante anexo, para que eles localizem o crédito e ajustem sua fatura imediatamente.
+
+Seguimos à disposição,
+Equipe de Relacionamento Decolar`;
+      }
+
+      document.getElementById('out-risk').innerText = risk;
+      document.getElementById('out-sentiment').innerText = sentiment;
+      document.getElementById('out-strategy').innerText = strategy;
+      
+      typeWriter(draftText, document.getElementById('out-draft'));
+    }
+
+    function typeWriter(text, element) {
+      element.innerHTML = '';
+      element.classList.add('typing-indicator');
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+          i++;
+          setTimeout(type, 8); 
+        } else {
+          element.classList.remove('typing-indicator');
+        }
+      }
+      type();
+    }
+
+    function copyDraft() {
+      const text = document.getElementById('out-draft').innerText;
+      if(!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Minuta copiada para a área de transferência!");
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').innerText = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    window.onload = () => switchTab('sobre');
+  </script>
+</body>
+</html>
